@@ -8,20 +8,26 @@ A series of helper scripts to reduce duplication across `script/bootstrap`s.
 - [`brew upgrade-mysql`](cmd/brew-upgrade-mysql): Upgrade MySQL from 5.6 to 5.7 and maintain a development `my.cnf` configuration.
 - [`ruby-definitions/`](ruby-definitions): `ruby-build` definitions for GitHub Rubies (from [boxen/puppet-ruby](https://github.com/boxen/puppet-ruby/tree/master/files/definitions)).
 
+## Installation
+
+```bash
+brew tap castiron/bootstrap
+```
+
 ## Usage
 
 ```bash
-brew tap github/bootstrap
 brew bootstrap-rbenv-ruby # or any other script
 ```
 
 ## Status
-In active development.
 
-[![Build Status](https://travis-ci.org/github/homebrew-bootstrap.svg)](https://travis-ci.org/github/homebrew-bootstrap)
+This approach to managing development environments is being actively developed at Cast Iron Coding. 
+
 
 ## Contact
-[@mikemcquaid](https://github.com/mikemcquaid/)
+[@zdavis](https://github.com/zdavis/)
+[@gblair](https://github.com/gblair/)
 
 ## License
 Homebrew Bootstrap is licensed under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).

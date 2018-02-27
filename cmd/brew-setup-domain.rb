@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
-# Generates and installs a project nginx configuration using erb.
+# Does a thing
 require "erb"
 require "pathname"
 
-puts "shabda"
+tap_root = File.join(ENV["HOMEBREW_LIBRARY"], "Taps", "castiron", "homebrew-bootstrap")
+template_dir = File.join(tap_root, "templates")
+puts template_dir
