@@ -4,19 +4,29 @@
 #               back to the initial first unused state.
 
 set -e
+cd "$(dirname "$0")/.."
 
+# Bootstrap first
+echo "==> Execute ./script/bootstrap"
 path="$(dirname "$0")/bootstrap"
 $path
+echo "==> Bootstrap complete"
 
-echo "==> Setting up DB…"
-# reset database to a fresh state.
-bin/rake db:create 
+# Setup the database
+bin/rake db:create
 bin/rake db:reset
 
+# Install or update Foreman
 if [ -z "$RAILS_ENV" ] && [ -z "$RACK_ENV" ]; then
   echo "==> Installing or updating Foreman gem…"
   gem install foreman
   true
 fi
 
-echo "==> App is now ready to go!"
+# Ensure DNS and setup nginx
+PROJ_DIR=$(pwd)
+brew setup-nginx-conf cic-wobsite $PROJ_DIR/public config/dev/nginx.conf.erb \
+    --extra-val=socket_dir=$PROJ_DIR/tmp/sockets \
+    --extra-val=log_dir=$PROJ_DIR/log
+exit
+

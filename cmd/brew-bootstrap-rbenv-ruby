@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Installs Ruby and Bundler.
+
 set -e
+
+echo "==> Ensuring Ruby is present"
 
 if [ "$1" = "--debug" ]; then
   shift
@@ -88,7 +91,9 @@ if [ "$(rbenv exec ruby --version)" != "$(ruby --version)" ]; then
   abort_with_shell_setup_message
 fi
 
-(rbenv which bundle &>/dev/null && bundle -v &>/dev/null) || {
+
+(rbenv which bundle &>/dev/null || bundle -v &>/dev/null) || {
+  echo "==> Installing Bundler"
   gem install bundler
   rbenv rehash
 }

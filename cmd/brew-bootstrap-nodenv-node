@@ -2,6 +2,8 @@
 # Installs Node and NPM.
 set -e
 
+echo "==> Ensuring Node is present"
+
 if [ "$1" = "--debug" ]; then
   shift
   PRINT_DEBUG="1"

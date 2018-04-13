@@ -12,16 +12,19 @@ else
   https_port = 8443
 end
 
+
 name = ARGV.shift
 root = ARGV.shift || "."
 input = ARGV.shift || "config/dev/nginx.conf.erb"
-
 if !name || !root || !input
   abort "Usage: brew setup-nginx-conf [--root] [--extra-val=variable=value] <project_name> <project_root_path> <nginx.conf.erb>"
 end
 
-abort "Error: #{input} is not a .erb file!" unless input.end_with? ".erb"
+# Default variables
+tld = "test"
 
+# Confirm that we have an ERB template
+abort "Error: #{input} is not a .erb file!" unless input.end_with? ".erb"
 root = File.expand_path root
 input = File.expand_path input
 
@@ -33,9 +36,12 @@ ARGV.delete_if do |argument|
   next unless argument.start_with? "--extra-val="
   variable, value = argument.sub(/^--extra-val=/, "").split("=", 2)
   variables.local_variable_set(variable.to_sym, value)
-
   true
 end
+
+# Derived variables
+server_name = "#{name}.#{tld}"
+
 
 data = IO.read input
 conf = ERB.new(data).result(variables)
@@ -47,7 +53,7 @@ exit if root_configuration
 
 /access_log (?<log>.+);/ =~ conf
 if log
-  log = Pathname(log)
+  log = Pathname(log.split(" ").first)
   log.dirname.mkpath
   FileUtils.touch log unless log.exist?
 end
@@ -64,24 +70,37 @@ unless File.exist? "/usr/local/bin/brew"
 EOS
 end
 
+
+# Once we get away from Boxen, we'll want to make sure we have nginx in place:
+# But for now, we'll leave it out and use Boxen's nginx.
+# 
+# brew "nginx", restart_service: true
 brewfile = <<~EOS
   brew "launchdns", restart_service: true
   brew "launch_socket_server"
-  brew "nginx", restart_service: true
 EOS
 
 started_services = false
 unless system "echo '#{brewfile}' | brew bundle check --file=- >/dev/null"
-  puts "Installing *.dev dependencies:"
+  puts "Installing *.test dependencies:"
   unless system "echo '#{brewfile}' | brew bundle --file=-"
-    abort "Error: install *.dev dependencies with brew bundle!"
+    abort "Error: install *.test dependencies with brew bundle!"
   end
   started_services = true
 end
 
+unless File.exist? "/usr/local/etc/resolver/test"
+  puts "Adding .test domain resolver; you may need to restart your network interface."
+  test_resolver = <<~EOS
+    nameserver 127.0.0.1
+    port 55353
+  EOS
+  File.write('/usr/local/etc/resolver/test', test_resolver)
+end
+
 if `readlink /etc/resolver 2>/dev/null`.chomp != "/usr/local/etc/resolver"
   unless system "sudo -n true >/dev/null"
-    puts "Asking for your password to setup *.dev:"
+    puts "Asking for your password to setup *.test:"
   end
   system "sudo rm -rf /etc/resolver"
   unless system "sudo ln -sf /usr/local/etc/resolver /etc/resolver"
@@ -100,6 +119,7 @@ if File.exist? "/etc/pf.anchors/dev.strap"
   system "sudo launchctl unload /Library/LaunchDaemons/dev.strap.pf.plist 2>/dev/null"
   system "sudo rm -f /Library/LaunchDaemons/dev.strap.pf.plist"
 end
+
 if `brew services list | grep launch_socket_server | grep started` == ""
   unless system "sudo -n true > /dev/null"
     puts "Asking for your password to start launch_socket_server:"
@@ -109,7 +129,7 @@ if `brew services list | grep launch_socket_server | grep started` == ""
   end
 end
 
-server = "/usr/local/etc/nginx/servers/#{name}"
+server = "/usr/local/etc/boxen/nginx/sites/#{name}"
 unless system "ln -sf '#{File.absolute_path(output)}' '#{server}'"
   abort "Error: failed to symlink #{output} to #{server}!"
 end

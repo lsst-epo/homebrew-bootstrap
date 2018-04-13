@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+brew bootstrap-project-all
+brew bootstrap-nodenv-node
+brew bootstrap-rbenv-ruby
+
+if [ -f "Gemfile" ]; then
+  echo "==> Installing gem dependencies…"
+  bundle check --path vendor/gems >/dev/null 2>&1  || {
+    bundle install --path vendor/gems --without production
+  }
+fi
