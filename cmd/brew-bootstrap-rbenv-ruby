@@ -53,7 +53,7 @@ cleanup() {
     warn "For debugging output run:"
     warn "  $0 --debug"
     warn "If you're stuck: file an issue with debugging output at:"
-    warn "  https://github.com/github/homebrew-bootstrap/issues/new"
+    warn "  https://github.com/castiron/homebrew-bootstrap/issues/new"
   fi
 }
 trap "cleanup" EXIT

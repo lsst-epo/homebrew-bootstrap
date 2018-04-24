@@ -3,7 +3,7 @@ upstream <%= server_name %> {
 }
 
 server {
-  access_log <%= log_dir %>/nginx.access.log main;
+  access_log <%= log_dir %>/nginx.access.log combined;
   listen 80;
   root <%= root %>;
   server_name <%= name %>.<%= tld.strip %>;

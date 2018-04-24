@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+# Installs Ruby and Bundler.
+
+set -e
+
+echo "==> Ensuring PHP is present"
+
+if [ "$1" = "--debug" ]; then
+  shift
+  PRINT_DEBUG="1"
+  set -x
+fi
+
+warn() { echo "$@" >&2; }
+abort() { EXPECTED_EXIT="1"; warn "$@"; exit 1; }
+
+abort_for_sh() {
+  abort 'Error: add `eval "$(phpenv init -)"` to the end of your .bash_profile!'
+}
+
+abort_for_zsh() {
+  abort 'Error: add `eval "$(phpenv init -)"` to the end of your .zshrc!'
+}
+
+abort_for_fish() {
+  abort 'Error: add `status --is-interactive; and . (phpenv init -|psub)` to the end of your .config/fish/config.fish!'
+}
+
+abort_with_shell_setup_message() {
+  case $(basename ${SHELL:-bash}) in
+  sh|bash)
+    abort_for_sh
+    ;;
+  zsh)
+    abort_for_zsh
+    ;;
+  fish)
+    abort_for_fish
+    ;;
+  # tcsh users are on their own
+  *)
+    abort 'Error: you must finish setting up phpenv in your shell; check `phpenv init` for instructions!'
+  esac
+}
+
+cleanup() {
+  set +e
+  if [ -n "$EXPECTED_EXIT" ]; then
+    return
+  fi
+  warn "Error: $(basename $0) failed!"
+  if [ -z "$PRINT_DEBUG" ]; then
+    warn "For debugging output run:"
+    warn "  $0 --debug"
+    warn "If you're stuck: file an issue with debugging output at:"
+    warn "  https://github.com/castiron/homebrew-bootstrap/issues/new"
+  fi
+}
+trap "cleanup" EXIT
+
+
+BASE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if ! which phpenv &>/dev/null; then
+  abort "Error: you need to 'brew install phpenv'!"
+fi
+
+if ! phpenv version-name &>/dev/null; then
+
+  if ! [[ -z "$PHPENV_VERSION" ]]; then
+    PHP_REQUESTED="$PHPENV_VERSION"
+  else
+    PHP_REQUESTED="$(phpenv local)"
+  fi
+  PHP_DEFINITION="$(php-build --definitions | grep "^$PHP_REQUESTED$" || true)"
+
+  if [ -z "$PHP_DEFINITION" ]; then
+    PHP_DEFINITION="$BASE_PATH/php-definitions/$PHP_REQUESTED"
+
+    if ! [ -f "$PHP_DEFINITION" ]; then
+      warn  "Error: cannot find Ruby $PHP_REQUESTED definition in php-build or at:"
+      abort "$PHP_DEFINITION"
+    fi
+  fi
+
+  PATH="/usr/local/opt/bison/bin:$PATH"
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  export PHP_BUILD_CONFIGURE_OPTIONS="--with-openssl=$HOMEBREW_PREFIX/opt/openssl"
+
+  phpenv install "$PHP_DEFINITION"
+fi
+
+if [ "$(phpenv exec php --version)" != "$(php --version)" ]; then
+  abort_with_shell_setup_message
+fi
+
+# Maybe install composer?
+# (rbenv which bundle &>/dev/null || bundle -v &>/dev/null) || {
+#   echo "==> Installing Bundler"
+#   gem install bundler
+#   rbenv rehash
+# }
+
+EXPECTED_EXIT="1"
+exit 0
