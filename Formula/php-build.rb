@@ -15,6 +15,7 @@ class PhpBuild < Formula
   depends_on "bison" => :recommended
   depends_on "libxml2" => :recommended
   depends_on "icu4c" => :recommended
+  depends_on "mcrypt" => :recommended
 
   def install
     ENV["PREFIX"] = prefix
