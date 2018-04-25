@@ -85,21 +85,12 @@ if ! phpenv version-name &>/dev/null; then
 
   PATH="/usr/local/opt/bison/bin:$PATH"
   HOMEBREW_PREFIX="$(brew --prefix)"
-  export PHP_BUILD_CONFIGURE_OPTIONS="--with-openssl=$HOMEBREW_PREFIX/opt/openssl"
-
   phpenv install "$PHP_DEFINITION"
 fi
 
 if [ "$(phpenv exec php --version)" != "$(php --version)" ]; then
   abort_with_shell_setup_message
 fi
-
-# Maybe install composer?
-# (rbenv which bundle &>/dev/null || bundle -v &>/dev/null) || {
-#   echo "==> Installing Bundler"
-#   gem install bundler
-#   rbenv rehash
-# }
 
 EXPECTED_EXIT="1"
 exit 0
