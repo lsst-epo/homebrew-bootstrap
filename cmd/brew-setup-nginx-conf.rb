@@ -83,7 +83,7 @@ EOS
 started_services = false
 unless system "echo '#{brewfile}' | brew bundle check --file=- >/dev/null"
   puts "Installing *.#{tld} dependencies:"
-  unless system "echo '#{brewfile}' | brew bundle --file=-"
+  unless system "echo '#{brewfile}' | brew bundle  --no-upgrade --file=-"
     abort "Error: install *.#{tld} dependencies with brew bundle!"
   end
   started_services = true
