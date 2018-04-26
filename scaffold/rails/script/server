@@ -4,6 +4,7 @@
 #                locally.
 
 set -e
+if ! brew check-strta-enabled ; then exit 1; fi
 
 # ensure everything in the app is up to date.
 update="$(dirname "$0")/update"

@@ -4,10 +4,10 @@
 #                 designed to run on the continuous integration server.
 
 set -e
-
 cd "$(dirname "$0")/.."
+if ! brew check-strta-enabled ; then exit 1; fi
 
-echo "Tests started at…"
+echo "===> Tests started at…"
 date "+%H:%M:%S"
 
 # GC customizations

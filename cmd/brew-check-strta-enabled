@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "===> Script to rule them all compatibility check…"
+if which boxen &>/dev/null; then
+	echo ""
+	echo "Boxen is still installed. Scripts to rule them all is not compatible with Boxen."
+	echo "Please see your neighborhood dev-ops team member for assistance and moral support."
+	exit 1;
+fi
+
+echo "===> Compatibility check: Success!"
+exit 0

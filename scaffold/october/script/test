@@ -6,8 +6,8 @@
 #                 environment.
 
 set -e
-
 cd "$(dirname "$0")/.."
+if ! brew check-strta-enabled ; then exit 1; fi
 
 # Run the local console in the development environment. Ensure the application is up
 # to date first.
