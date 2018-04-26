@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -e
+
+services=( nginx )
+
+for service in "${services[@]}"
+do
+	echo "==> Checking ${service} to make sure it's runnable by $(whoami)"
+	service_path=$(realpath $(which ${service}))
+
+if [ -z "$service_path" ]; then
+	echo "Could not find $service to fix!" >&2
+	exit 1
+fi
+
+if [ $(stat -f %u "$service_path") -ne 0 ]; then
+	echo "Need to reset $service owner!" >&2
+
+	sudo chown -v root: "$service_path"
+fi
+
+if [ ! -u "$service_path" ]; then
+	echo "Need to setuid the $service binary!" >&2
+
+	sudo chmod -v u+s "$service_path"
+fi
+
+echo "===> ${service} is good to go."
+done
