@@ -1,6 +1,6 @@
 # Homebrew Bootstrap
 
-This repository is Cast Iron Coding's homebrew tap used to support setting up projects and running services on development workstations. It supports the [one script to rule them all](https://github.com/github/scripts-to-rule-them-all) convention that we will use going forward. We used to use Boxen. Now we use [Strap](https://github.com/MikeMcQuaid/strap) and this tap. 
+This repository is Cast Iron Coding's homebrew tap used to support setting up projects and running services on development workstations. It supports the [one script to rule them all](https://github.com/github/scripts-to-rule-them-all) convention that we will use going forward. We used to use Boxen. Now we use [Strap](https://github.com/MikeMcQuaid/strap) and this tap.
 
 The functionality in this repository is not compatible with Boxen. Boxen should be completely removed from your machine before attempting to use this tap. **Things will break if you try to use this alongside Boxen.**
 
@@ -86,7 +86,7 @@ $ brew check-strta-enabled
 
 ### ensure-nginx-executable
 
-To run nginx on port 80 and 443, which are privileged ports, nginx needs to run as root. This command modifies the nginx executable so that the non-privileged user can start and restart nginx. It needs to be run after any update to nginx, and is references in the caveats of our (slightly) modified nginx formula.
+To run nginx on port 80 and 443, which are privileged ports, nginx needs to run as root. This command modifies the nginx executable so that the non-privileged user can start and restart nginx. It needs to be run after any update to nginx, and it references in the caveats of our (slightly) modified nginx formula.
 
 ```
 $ brew ensure-nginx-executable
@@ -150,7 +150,7 @@ Keep in mind that brew will only include executable files as commands. If you ad
 
 ## Status
 
-This approach to managing development environments is being actively developed at Cast Iron Coding. Our current intention is to replace Boxen with this set of brew commands, [Strap](https://github.com/MikeMcQuaid/strap), [brew bundle](https://github.com/Homebrew/homebrew-bundle), and a customized version of Github's [one script to rule them all](https://github.com/github/scripts-to-rule-them-all). 
+This approach to managing development environments is being actively developed at Cast Iron Coding. Our current intention is to replace Boxen with this set of brew commands, [Strap](https://github.com/MikeMcQuaid/strap), [brew bundle](https://github.com/Homebrew/homebrew-bundle), and a customized version of Github's [one script to rule them all](https://github.com/github/scripts-to-rule-them-all).
 
 ## Maintainers
 - [@zdavis](https://github.com/zdavis/)
