@@ -18,6 +18,9 @@
 # Folders called ignore
 ignore/
 
+# Ignore composer executable
+composer.phar
+
 # Ignore everything in the public dir with some whitelist
 /www/*
 !/www/favicon.ico
