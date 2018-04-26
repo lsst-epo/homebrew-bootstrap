@@ -1,0 +1,38 @@
+# Database
+.warewolf
+
+# Packages
+/vendor
+/node_modules
+
+# Env
+/.env
+
+# Logs
+*.log
+
+# IDE
+/.idea
+/idea
+
+# Folders called ignore
+ignore/
+
+# Ignore everything in the public dir with some whitelist
+/www/*
+!/www/favicon.ico
+!/www/index.php
+!/www/modules
+!/www/plugins
+!/www/storage
+!/www/themes
+
+# Ignore everything these dirs with some whitelisting if necessary.
+# Most of this will be managed by Composer
+/modules/*
+/storage/*
+/plugins/*
+/plugins/castiron/*
+!/plugins/castiron
+!/plugins/toughdeveloper
+!/plugins/toughdeveloper/imageresizer
