@@ -7,7 +7,7 @@ brew bootstrap-rbenv-ruby
 
 if [ -f "Gemfile" ]; then
   echo "==> Installing gem dependencies…"
-  bundle check --path vendor/gems >/dev/null 2>&1  || {
-    bundle install --path vendor/gems --without production
+  bundle check >/dev/null 2>&1  || {
+    bundle install
   }
 fi
