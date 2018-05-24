@@ -27,7 +27,7 @@ fi
 echo "===> Ensuring MySQL is running."
 brew services start mysql
 
-db="${PROJ_NAME}_dev"
+db="${PROJ_NAME//-/_}_dev"
 if mysql -uroot "${db}" >/dev/null 2>&1 </dev/null
 then
   echo "===> Database ${db} exists."
