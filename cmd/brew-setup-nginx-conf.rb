@@ -131,3 +131,5 @@ unless started_services
     abort "Error: failed to (re)start nginx!"
   end
 end
+
+system "brew ensure-nginx-executable"
