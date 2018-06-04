@@ -1,0 +1,36 @@
+# Common excluded files
+.svn
+.DS_Store
+._DS*
+._*
+.idea
+.sass-cache
+.sass-cache/*
+*.sublime-project
+*.sublime-workspace
+/node_modules
+/vendor
+.htaccess
+
+# New warewolf setup
+.warewolf
+!/.warewolf/client
+
+# Exclude temp files
+Source/typo3temp/*
+Source/typo3conf/temp*
+Source/typo3conf/ENABLE_INSTALL_TOOL
+
+# Exclude log files
+Source/typo3conf/*.log
+error_log
+
+# Exclude context sensitive files
+Source/environment/*
+!Source/environment/*.sample
+
+Source/uploads
+Source/fileadmin
+
+/log
+
