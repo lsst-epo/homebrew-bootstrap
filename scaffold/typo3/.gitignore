@@ -34,3 +34,10 @@ Source/fileadmin
 
 /log
 
+/tmp/*
+!/tmp/.gitkeep
+!/tmp/sockets
+/tmp/sockets/*
+!/tmp/sockets/.gitkeep
+
+.bundle/config
