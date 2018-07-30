@@ -18,12 +18,16 @@ if [ $(stat -f %u "$service_path") -ne 0 ]; then
 	echo "Need to reset $service owner!" >&2
 
 	sudo chown -v root: "$service_path"
+
+	brew services restart ${service}
 fi
 
 if [ ! -u "$service_path" ]; then
 	echo "Need to setuid the $service binary!" >&2
 
 	sudo chmod -v u+s "$service_path"
+
+	brew services restart ${service}
 fi
 
 echo "===> ${service} is good to go."
