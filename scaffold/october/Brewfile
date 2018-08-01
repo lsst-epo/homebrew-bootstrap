@@ -1,4 +1,4 @@
-brew "imagemagick --with-ghostscript"
+brew "imagemagick", args: ['with-ghostscript']
 brew "composer"
 brew "mysql", restart_service: :changed
 brew "nginx", restart_service: :changed
