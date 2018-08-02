@@ -6,7 +6,7 @@ The functionality in this repository is not compatible with Boxen. Boxen should 
 
 ## Prerequisites
 
-1. Boxen has been fulled removed from your machine.
+1. Boxen has been [fully removed from your machine](https://stackoverflow.com/c/cic/questions/26).
 2. You have a current, up-to-date version of homebrew. Run `brew update` and address any problems until you can run it without issue.
 3. You can run `brew doctor` without any problems being reported.
 
