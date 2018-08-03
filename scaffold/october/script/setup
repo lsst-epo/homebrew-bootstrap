@@ -18,9 +18,9 @@ $path
 echo "==> Bootstrap complete"
 
 if ! [ -f ".env" ]; then
-  if [ -f ".env.example" ]; then
+  if [ -f ".env.sample" ]; then
     echo "===> Shunting .env into position…"
-    cp .env.example .env
+    cp .env.sample .env
   fi
 fi
 
