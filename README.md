@@ -102,11 +102,12 @@ $ brew setup-nginx-conf [--root] [--extra-val=variable=value] <project_name> <pr
 
 ### scaffold
 
-The scaffold command, which currently supports `october` and `rails` projects, will install scripts, a procfile, gitignores, and generally setup the project. Users will be prompted before files are overwritten. When starting a new project, the scaffold command should be run to get the various scripts in place.
+The scaffold command, which currently supports `october`, `rails`, and `typo3` projects, will install scripts, a procfile, gitignores, and generally setup the project. Users will be prompted before files are overwritten. When starting a new project, the scaffold command should be run to get the various scripts in place.
 
 ```
 $ brew scaffold october
 $ brew scaffold rails
+$ brew scaffold typo3
 ```
 
 ### setup-ssl
