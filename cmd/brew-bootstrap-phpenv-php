@@ -78,7 +78,7 @@ if ! phpenv version-name &>/dev/null; then
     PHP_DEFINITION="$BASE_PATH/php-definitions/$PHP_REQUESTED"
 
     if ! [ -f "$PHP_DEFINITION" ]; then
-      warn  "Error: cannot find Ruby $PHP_REQUESTED definition in php-build or at:"
+      warn  "Error: cannot find PHP $PHP_REQUESTED definition in php-build or at:"
       abort "$PHP_DEFINITION"
     fi
   fi
