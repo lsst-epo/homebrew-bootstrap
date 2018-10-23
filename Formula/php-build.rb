@@ -1,7 +1,7 @@
 class PhpBuild < Formula
   desc "Install various PHP versions and implementations"
   homepage "https://github.com/php-build/php-build"
-  url "https://github.com/php-build/php-build", :using => :git, :revision => "8cc8307ef3ec5196ba756c854345a143609f48da"
+  url "https://github.com/php-build/php-build", :using => :git, :revision => "51b8f0a7daa08c2a97a00a194e655d079f31cac3"
   head "https://github.com/php-build/php-build.git"
 
   bottle :unneeded
