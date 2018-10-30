@@ -1,2 +1,2 @@
 webpack: yarn dev
-app: php-fpm --fpm-config config/dev/php-fpm.conf -p $(pwd)
+app: php-fpm --fpm-config config/dev/php-fpm.conf --php-ini config/dev/php.ini -p $(pwd)
