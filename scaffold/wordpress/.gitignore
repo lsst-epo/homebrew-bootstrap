@@ -1,0 +1,34 @@
+# Database
+.warewolf
+
+# Packages
+/vendor
+/node_modules
+
+# Env
+/.env
+
+# Logs
+*.log
+
+# IDE
+/.idea
+/idea
+
+# Folders called ignore
+ignore/
+
+# Ignore composer executable
+composer.phar
+
+# Application
+web/app/plugins/*
+!web/app/plugins/.gitkeep
+web/app/mu-plugins/*/
+web/app/upgrade
+web/app/uploads/*
+!web/app/uploads/.gitkeep
+
+# WordPress
+web/wp
+web/.htaccess
