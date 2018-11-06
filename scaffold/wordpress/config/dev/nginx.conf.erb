@@ -70,7 +70,7 @@ server {
 
   location / {
     index index.html index.htm index.php;
-    try_files $uri $uri/ /index.php$is_args$args;
+    try_files $uri $uri/ /index.php?q=$uri&$is_args$args;
 
     # This is a super-basic way to allow ALL cross-origin requests.
     # Obviously, you probably don't want this in production. Instead, target
