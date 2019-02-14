@@ -108,6 +108,7 @@ The scaffold command, which currently supports `october`, `rails`, and `typo3` p
 $ brew scaffold october
 $ brew scaffold rails
 $ brew scaffold typo3
+$ brew scaffold wordpress
 ```
 
 ### setup-ssl
@@ -155,7 +156,6 @@ This approach to managing development environments is being actively developed a
 
 ## Maintainers
 - [@zdavis](https://github.com/zdavis/)
-- [@gblair](https://github.com/gblair/)
 - [@rclarkburns](https://github.com/rclarkburns/)
 
 ## License
