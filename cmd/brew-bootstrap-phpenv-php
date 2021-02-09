@@ -85,6 +85,8 @@ if ! phpenv version-name &>/dev/null; then
 
   PATH="/usr/local/opt/bison/bin:$PATH"
   HOMEBREW_PREFIX="$(brew --prefix)"
+  brew install zlib bzip2 readline libedit libiconv libzip tidy-html5
+  export CONFIGURE_OPTS="--with-tidy=$(brew --prefix tidy-html5) --with-zlib-dir=$(brew --prefix zlib) --with-bz2=$(brew --prefix bzip2) --with-readline=$(brew --prefix readline) --with-libedit=$(brew --prefix libedit) --with-iconv=$(brew --prefix libiconv) --with-libzip=$(brew --prefix libzip) --with-pdo-pgsql --with-pgsql"
   phpenv install "$PHP_DEFINITION"
 fi
 
