@@ -2,7 +2,6 @@
 # Installs Ruby and Bundler.
 
 export
-abort 'Exiting..ZD'
 
 set -e
 
