@@ -3,7 +3,7 @@ class PhpBuild < Formula
   homepage "https://github.com/php-build/php-build"
   url "https://github.com/php-build/php-build", :using => :git, :revision => "ac70160961508ca1180f0ba7b90f3c6de9c63576"
   head "https://github.com/php-build/php-build.git"
-  version "1.1"
+  version "1.2"
   bottle :unneeded
 
   depends_on "autoconf" => :recommended
