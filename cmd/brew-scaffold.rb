@@ -25,7 +25,7 @@ if type == "rails"
   end
 end
 
-if type == "october"
+if type == "october" || type =="docker_october"
   unless File.exists?("composer.json") && File.exists?("config/cms.php")
     abort "The current directory does not appear to be the root of a October project"
   end

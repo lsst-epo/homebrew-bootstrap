@@ -1,0 +1,75 @@
+version: "3.9"
+services:
+  october:
+    build:
+      args:
+        user: october
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      - SSH_AUTH_SOCK="/run/host-services/ssh-auth.sock"
+    volumes:
+      - ./:/var/www
+      - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock:ro
+      - ./docker-compose/october/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker-compose/october/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ~/.composer/auth.json:/home/october/.composer/auth.json
+    networks:
+      - frontend
+      - backend
+
+  node:
+    image: node:10.23.2
+    user: node
+    restart: unless-stopped
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+      - PATH=/home/node/app/node_modules/.bin:$PATH
+    volumes:
+      - ./:/home/node/app
+      - ./docker-compose/node/bin:/home/node/bin
+    ports:
+      - "9090:9090"
+    command: "/home/node/bin/yarn_install_and_start"
+
+
+  database:
+    image: mysql:5.7
+    restart: unless-stopped
+    ports:
+      - "8001:3306"
+    environment:
+      MYSQL_DATABASE: ${OCTOBER_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${OCTOBER_DB_PASSWORD}
+      MYSQL_PASSWORD: ${OCTOBER_DB_PASSWORD}
+      MYSQL_USER: ${OCTOBER_DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: database
+    volumes:
+      - ./docker-compose/mysql/mysqld.conf:/etc/mysql/conf.d/mysqld.conf
+      - ./docker-compose/mysql/data:/var/lib/mysql
+      - ./docker-compose/mysql/queries:/var/lib/queries
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - frontend
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
