@@ -1,11 +1,19 @@
-require '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/nginx.rb'
+begin
+  require '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/nginx.rb'
+rescue
+  begin
+    print "require failed! trying m1 folder"
+    require '/opt/homebrew/Library/Taps/castiron/homebrew-core/Formula/nginx.rb'
+    print "success!"
+  rescue
+    print "alternative m1 require folder failedf"
 
 module CustomNginx
 
   # Display a message after install or update
   def caveats
   	<<~EOS
-      
+
       <<<< IMPORTANT >>>>
 
       Nginx has been updated or installed.
