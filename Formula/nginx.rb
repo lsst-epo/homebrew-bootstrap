@@ -1,10 +1,13 @@
+loadedCustomConfig = false
 begin
   require '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/nginx.rb'
+  loadedCustomConfig = true
 rescue
   begin
     print "require failed! trying m1 folder"
     require '/opt/homebrew/Library/Taps/castiron/homebrew-core/Formula/nginx.rb'
     print "success!"
+    loadedCustomConfig = true
   rescue
     print "alternative m1 require folder failedf"
 
@@ -43,4 +46,6 @@ module CustomNginx
   # end
 end
 
-Nginx.prepend CustomNginx
+if loadedCustomConfig == true
+  Nginx.prepend CustomNginx
+end
