@@ -2,7 +2,7 @@
 #require '/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/nginx.rb'
 
 # for m1 macbooks:
-require '/opt/homebrew/Library/Taps/castiron/homebrew-core/Formula/nginx.rb'
+require '/opt/homebrew/Library/Taps/lsst-epo/homebrew-bootstrap/Formula/nginx.rb'
 
 module CustomNginx
 
