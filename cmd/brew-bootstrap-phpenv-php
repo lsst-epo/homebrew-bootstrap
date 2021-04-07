@@ -6,6 +6,7 @@ export
 set -e
 
 echo "==> Ensuring PHP is present"
+echo "$(php --version)"
 
 if [ "$1" = "--debug" ]; then
   shift
@@ -93,7 +94,8 @@ if ! phpenv version-name &>/dev/null; then
 fi
 
 if [ "$(phpenv exec php --version)" != "$(php --version)" ]; then
-  abort_with_shell_setup_message
+  echo "Version mismatch between phpenv and global php, or php command is missing"
+  #abort_with_shell_setup_message
 fi
 
 EXPECTED_EXIT="1"
