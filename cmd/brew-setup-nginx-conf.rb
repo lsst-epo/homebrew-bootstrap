@@ -89,23 +89,55 @@ unless system "echo '#{brewfile}' | brew bundle check --file=- >/dev/null"
   started_services = true
 end
 
-unless File.exist? "/usr/local/etc/resolver/#{tld}"
-  puts "Adding .#{tld} domain resolver; you may need to restart your network interface."
-  resolver = <<~EOS
-    nameserver 127.0.0.1
-    port 55353
-  EOS
-  File.write("/usr/local/etc/resolver/#{tld}", resolver)
-end
+# For m1 macbooks:
+if `uname -m`.strip == "arm64"
 
-if `readlink /etc/resolver 2>/dev/null`.chomp != "/usr/local/etc/resolver"
-  unless system "sudo -n true >/dev/null"
-    puts "Asking for your password to setup *.#{tld}:"
+  puts 'M1 Macbook detected'
+  unless File.exist? "/opt/homebrew/etc/resolver/#{tld}"
+    puts "Adding .#{tld} domain resolver for m1 macbook; you may need to restart your network interface."
+    resolver = <<~EOS
+      nameserver 127.0.0.1
+      port 55353
+    EOS
+    File.write("/opt/homebrew/etc/resolver/#{tld}", resolver)
   end
-  system "sudo rm -rf /etc/resolver"
-  unless system "sudo ln -sf /usr/local/etc/resolver /etc/resolver"
-    abort "Error: failed to symlink /usr/local/etc/resolver to /etc/resolver!"
+
+  if `readlink /etc/resolver 2>/dev/null`.chomp != "/opt/homebrew/etc/resolver"
+    unless system "sudo -n true >/dev/null"
+      puts "Asking for your password to setup *.#{tld}:"
+    end
+    system "sudo rm -rf /etc/resolver"
+    unless system "sudo ln -sf /opt/homebrew/etc/resolver /etc/resolver"
+      abort "Error: failed to symlink /opt/homebrew/etc/resolver to /etc/resolver!"
+    end
   end
+
+  server = "/opt/homebrew/etc/nginx/servers/#{name}"
+
+else # for intel macbooks:
+
+  puts 'Intel Macbook detected'
+  unless File.exist? "/usr/local/etc/resolver/#{tld}"
+    puts "Adding .#{tld} domain resolver for intel macbook; you may need to restart your network interface."
+    resolver = <<~EOS
+      nameserver 127.0.0.1
+      port 55353
+    EOS
+    File.write("/usr/local/etc/resolver/#{tld}", resolver)
+  end
+
+  if `readlink /etc/resolver 2>/dev/null`.chomp != "/usr/local/etc/resolver"
+    unless system "sudo -n true >/dev/null"
+      puts "Asking for your password to setup *.#{tld}:"
+    end
+    system "sudo rm -rf /etc/resolver"
+    unless system "sudo ln -sf /usr/local/etc/resolver /etc/resolver"
+      abort "Error: failed to symlink /usr/local/etc/resolver to /etc/resolver!"
+    end
+  end
+
+  server = "/usr/local/etc/nginx/servers/#{name}"
+
 end
 
 if File.exist? "/etc/pf.anchors/dev.strap"
@@ -120,7 +152,7 @@ if File.exist? "/etc/pf.anchors/dev.strap"
   system "sudo rm -f /Library/LaunchDaemons/dev.strap.pf.plist"
 end
 
-server = "/usr/local/etc/nginx/servers/#{name}"
+
 unless system "ln -sf '#{File.absolute_path(output)}' '#{server}'"
   abort "Error: failed to symlink #{output} to #{server}!"
 end
